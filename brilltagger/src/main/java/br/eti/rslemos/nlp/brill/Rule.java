@@ -23,6 +23,7 @@ package br.eti.rslemos.nlp.brill;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Rule {
 	@SuppressWarnings("unchecked") 
@@ -68,4 +69,68 @@ public class Rule {
 		return (i >>> 1) ^ (i << -1 >> -1);
 	}
 
+	static int[] reals(int length) {
+		int[] reals = new int[length];
+
+		for (int i = 0, j = -length / 2; i < reals.length; i++, j++) {
+			reals[i] = j;
+		}
+
+		return reals;
+	}
+
+	static int[] storeds(int length) {
+		int[] storeds = new int[length];
+
+		int i = 0;
+		for (int j = (length - 2) | 1; j > 0; i++, j -= 2)
+			storeds[i] = j;
+
+		for (int j = 0; j < length; i++, j += 2)
+			storeds[i] = j;
+
+		return storeds;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+
+		int[] reals = reals(matches.length);
+		int[] storeds = storeds(matches.length);
+
+		int x = 0;
+		for (int i = x; i < matches.length; i++) {
+			if (matches[storeds[i]] != null)
+				for (Entry<String, Object> entry : matches[storeds[i]].entrySet()) {
+					result.append(toString(entry, reals[i])).append(", ");
+				}
+		}
+
+		result.setLength(result.length() - 2);
+
+		result.append(" => ");
+
+		for (Entry<String, Object> entry : sets.entrySet()) {
+			result.append(toString(entry, 0)).append(", ");
+		}
+
+		result.setLength(result.length() - 2);
+
+		return result.toString();
+	}
+
+	private static String toString(Entry<String, Object> entry, int position) {
+		return String.format("%s[%d]=%s", entry.getKey(), position, asString(entry.getValue()));
+	}
+
+	private static String asString(Object value) {
+		if (value == null)
+			return "";
+		else if (value instanceof String)
+			return "'" + value + "'";
+		else
+			return String.valueOf(value); // TODO: provide JSON output?
+	}	
+	
 }
