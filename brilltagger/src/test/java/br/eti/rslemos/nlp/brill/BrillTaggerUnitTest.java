@@ -95,7 +95,7 @@ public class BrillTaggerUnitTest {
 		tagger.addRule(NEXTTAG("VBD", "VBN", "BY"));
 	}
 
-	private static Text text(String... sentences) {
+	static Text text(String... sentences) {
 		Text text = new DefaultText();
 		
 		for (String s : sentences) {
