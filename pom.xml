@@ -65,4 +65,20 @@
 		<url>ssh://git@github.com:rslemos/nlp.git</url>
 		<developerConnection>scm:git:git://github.com/rslemos/nlp.git</developerConnection>
 	</scm>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<target>1.5</target>
+						<source>1.5</source>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
 </project>
