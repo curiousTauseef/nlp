@@ -77,4 +77,9 @@ public class RulePatternUnitTest {
 		assertThat(pattern2.matches, is(equalTo(pattern.matches)));
 		assertThat(pattern2.sets, is(equalTo(pattern.sets)));
 	}
+	
+	@Test
+	public void testToString() {
+		assertThat(pattern.toString(), is(equalTo("POS[-1], WORD[0], POS[1], POS[2] => POS[0]")));
+	}
 }

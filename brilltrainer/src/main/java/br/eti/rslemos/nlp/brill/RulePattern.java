@@ -61,6 +61,38 @@ public class RulePattern {
 
 		sets.add(feature);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+
+		int[] reals = Rule.reals(matches.length);
+		int[] storeds = Rule.storeds(matches.length);
+
+		int x = 0;
+		for (int i = x; i < matches.length; i++) {
+			if (matches[storeds[i]] != null)
+				for (String feature : matches[storeds[i]]) {
+					result.append(toString(feature, reals[i])).append(", ");
+				}
+		}
+
+		result.setLength(result.length() - 2);
+
+		result.append(" => ");
+
+		for (String feature : sets) {
+			result.append(toString(feature, 0)).append(", ");
+		}
+
+		result.setLength(result.length() - 2);
+
+		return result.toString();
+	}
+
+	private static String toString(String feature, int position) {
+		return String.format("%s[%d]", feature, position);
+	}
 
 	public static RulePattern parse(String pattern) {
 		Matcher matcher = RULEPATTERN_REGEXP.matcher(pattern);
