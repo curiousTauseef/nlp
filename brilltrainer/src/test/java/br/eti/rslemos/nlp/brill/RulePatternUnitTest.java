@@ -69,4 +69,12 @@ public class RulePatternUnitTest {
 	public void testForbidRepeatedSet() {
 		pattern.addSet(0, "POS");
 	}
+	
+	@Test
+	public void testParseRulePattern() {
+		RulePattern pattern2 = RulePattern.parse("POS[-1], WORD[0], POS[1], POS[2] => POS[0]");
+
+		assertThat(pattern2.matches, is(equalTo(pattern.matches)));
+		assertThat(pattern2.sets, is(equalTo(pattern.sets)));
+	}
 }

@@ -23,9 +23,14 @@ package br.eti.rslemos.nlp.brill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RulePattern {
 
+	private static final Pattern RULEPATTERN_REGEXP = Pattern.compile("^(.*) => (.*)$");
+	private static final Pattern MATCHORSETCLAUSE_REGEXP = Pattern.compile("^([A-Za-z0-9]*)\\[(-?[0-9]+)\\]$");
+	
 	@SuppressWarnings("unchecked")
 	List<String>[] matches = new List[0];
 	List<String> sets = new ArrayList<String>();
@@ -56,4 +61,56 @@ public class RulePattern {
 
 		sets.add(feature);
 	}
+
+	public static RulePattern parse(String pattern) {
+		Matcher matcher = RULEPATTERN_REGEXP.matcher(pattern);
+		
+		if (!matcher.matches())
+			throw new IllegalArgumentException(String.format("RulePattern format: [matches] => [sets]: '%s'", pattern));
+		
+		return parse(matcher.group(1), matcher.group(2));
+	}
+
+	private static RulePattern parse(String matches, String sets) {
+		return parse(matches.split(","), sets.split(","));
+	}
+
+	private static RulePattern parse(String[] matches, String[] sets) {
+		RulePattern pattern = new RulePattern();
+		
+		for (String match : matches) {
+			parseMatchClause(pattern, match.trim());
+		}
+		
+		for (String set : sets) {
+			parseSetClause(pattern, set.trim());
+		}
+		
+		return pattern;
+	}
+
+	private static void parseMatchClause(RulePattern pattern, String match) {
+		Matcher matcher = MATCHORSETCLAUSE_REGEXP.matcher(match);
+		
+		if (!matcher.matches())
+			throw new IllegalArgumentException(String.format("Match clause format: FEATURE '[' index ']': '%s'", pattern));
+		
+		String featureName = matcher.group(1);
+		int index = Integer.parseInt(matcher.group(2));
+		
+		pattern.addMatch(index, featureName);
+	}
+
+	private static void parseSetClause(RulePattern pattern, String set) {
+		Matcher matcher = MATCHORSETCLAUSE_REGEXP.matcher(set);
+		
+		if (!matcher.matches())
+			throw new IllegalArgumentException(String.format("Set clause format: FEATURE '[' index ']': '%s'", pattern));
+		
+		String featureName = matcher.group(1);
+		int index = Integer.parseInt(matcher.group(2));
+		
+		pattern.addSet(index, featureName);
+	}
+
 }
