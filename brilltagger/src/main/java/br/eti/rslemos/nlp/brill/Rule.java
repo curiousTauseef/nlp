@@ -61,11 +61,11 @@ public class Rule {
 	// the negatives will take the (-2*i - 1) th position (odd)
 	
 	public static int real2Stored(int i) {
-		return (i >= 0) ? (2 * i) : (-2 * i - 1);
+		return (i << 1) ^ (i >> -1);
 	}
 
 	public static int stored2Real(int i) {
-		return i % 2 == 0 ? i / 2 : (i + 1) / -2;
+		return (i >>> 1) ^ (i << -1 >> -1);
 	}
 
 }
