@@ -57,6 +57,7 @@
 	<modules>
 		<module>tagger</module>
 		<module>brilltagger</module>
+		<module>brilltrainer</module>
 	</modules>
 
 	<licenses>
