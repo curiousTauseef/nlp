@@ -21,9 +21,7 @@
  ******************************************************************************/
 package br.eti.rslemos.nlp.brill;
 
-import static br.eti.rslemos.nlp.brill.TaggerTestHelper.NEXTTAG;
-import static br.eti.rslemos.nlp.brill.TaggerTestHelper.PREVTAG;
-import static br.eti.rslemos.nlp.brill.TaggerTestHelper.WDPREVTAG;
+import static br.eti.rslemos.nlp.brill.RuleBuilder.buildRule;
 import static br.eti.rslemos.nlp.brill.TaggerTestHelper.text;
 import static br.eti.rslemos.nlp.brill.TaggerTestHelper.toStrings;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -52,8 +50,8 @@ public class BrillTaggerUnitTest {
 	
 	@Test
 	public void testExampleMarkHepple2000() {
-		tagger.addRule(PREVTAG("NN", "VB", "TO"));
-		tagger.addRule(WDPREVTAG("RB", "RP", "VB", "up"));
+		tagger.addRule(buildRule().from("NN").to("VB").PREVTAG("TO").rule);
+		tagger.addRule(buildRule().from("RB").to("RP").PREVTAG("VB").WD("up").rule);
 		
 		Text text = text("to/TO sign/NN up/RB");
 		tagger.tag(text);
@@ -92,8 +90,8 @@ public class BrillTaggerUnitTest {
 	}
 	
 	private void addRocheAndSchabes1995Rules() {
-		tagger.addRule(PREVTAG("VBN", "VBD", "NP"));
-		tagger.addRule(NEXTTAG("VBD", "VBN", "BY"));
+		tagger.addRule(buildRule().from("VBN").to("VBD").PREVTAG("NP").rule);
+		tagger.addRule(buildRule().from("VBD").to("VBN").NEXTTAG("BY").rule);
 	}
 
 	private static <T> T[] toArray(T... elements) {

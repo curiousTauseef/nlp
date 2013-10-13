@@ -30,40 +30,6 @@ import br.eti.rslemos.nlp.Token;
 
 public class TaggerTestHelper {
 
-	public static Rule PREVTAG(String fromPOS, String toPOS, String prevPOS) {
-		Rule rule = new Rule();
-		
-		rule.addMatch( 0, "POS", fromPOS);
-		rule.addMatch(-1, "POS", prevPOS);
-		
-		rule.addSet(0, "POS", toPOS);
-		
-		return rule;
-	}
-
-	public static Rule NEXTTAG(String fromPOS, String toPOS, String nextPOS) {
-		Rule rule = new Rule();
-		
-		rule.addMatch( 0, "POS", fromPOS);
-		rule.addMatch( 1, "POS", nextPOS);
-		
-		rule.addSet(0, "POS", toPOS);
-		
-		return rule;
-	}
-
-	public static Rule WDPREVTAG(String fromPOS, String toPOS, String prevPOS, String thisWORD) {
-		Rule rule = new Rule();
-		
-		rule.addMatch( 0, "POS", fromPOS);
-		rule.addMatch( 0, "WORD", thisWORD);
-		rule.addMatch(-1, "POS", prevPOS);
-		
-		rule.addSet(0, "POS", toPOS);
-		
-		return rule;
-	}
-
 	public static Text text(String... sentences) {
 		Text text = new DefaultText();
 		
