@@ -30,7 +30,7 @@ public class Rule {
 	Map<String, Object>[] matches = new Map[0];
 	Map<String, Object> sets = new HashMap<String, Object>();
  
-	public void addMatch(int real, String feature, String value) {
+	public void addMatch(int real, String feature, Object value) {
 		int stored = real2Stored(real);
 		if (stored >= matches.length) {
 			@SuppressWarnings("unchecked")
