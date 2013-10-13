@@ -26,8 +26,9 @@ import static br.eti.rslemos.nlp.brill.TaggerTestHelper.PREVTAG;
 import static br.eti.rslemos.nlp.brill.TaggerTestHelper.WDPREVTAG;
 import static br.eti.rslemos.nlp.brill.TaggerTestHelper.text;
 import static br.eti.rslemos.nlp.brill.TaggerTestHelper.toStrings;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +58,7 @@ public class BrillTaggerUnitTest {
 		Text text = text("to/TO sign/NN up/RB");
 		tagger.tag(text);
 
-		verify(toStrings(text), "to/TO sign/VB up/RP");
+		assertThat(toStrings(text), is(equalTo(toArray("to/TO sign/VB up/RP"))));
 	}
 	
 	@Test
@@ -67,7 +68,7 @@ public class BrillTaggerUnitTest {
 		Text text = text("Chapman/NP killed/VBN John/NP Lennon/NP");
 		tagger.tag(text);
 		
-		verify(toStrings(text), "Chapman/NP killed/VBD John/NP Lennon/NP");
+		assertThat(toStrings(text), is(equalTo(toArray("Chapman/NP killed/VBD John/NP Lennon/NP"))));
 	}
 
 	@Test
@@ -77,7 +78,7 @@ public class BrillTaggerUnitTest {
 		Text text = text("John/NP Lennon/NP was/BEDZ shot/VBD by/BY Chapman/NP");
 		tagger.tag(text);
 
-		verify(toStrings(text), "John/NP Lennon/NP was/BEDZ shot/VBN by/BY Chapman/NP");
+		assertThat(toStrings(text), is(equalTo(toArray("John/NP Lennon/NP was/BEDZ shot/VBN by/BY Chapman/NP"))));
 	}
 
 	@Test
@@ -87,7 +88,7 @@ public class BrillTaggerUnitTest {
 		Text text = text("He/PPS witnessed/VBD Lennon/NP killed/VBN by/BY Chapman/NP");
 		tagger.tag(text);
 
-		verify(toStrings(text), "He/PPS witnessed/VBD Lennon/NP killed/VBN by/BY Chapman/NP");
+		assertThat(toStrings(text), is(equalTo(toArray("He/PPS witnessed/VBD Lennon/NP killed/VBN by/BY Chapman/NP"))));
 	}
 	
 	private void addRocheAndSchabes1995Rules() {
@@ -95,9 +96,7 @@ public class BrillTaggerUnitTest {
 		tagger.addRule(NEXTTAG("VBD", "VBN", "BY"));
 	}
 
-	private static void verify(String[] actual, String... expected) {
-		assertThat(actual, is(equalTo(expected)));
+	private static <T> T[] toArray(T... elements) {
+		return elements;
 	}
-
-
 }
